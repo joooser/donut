@@ -139,19 +139,19 @@ def train(config):
 
     bar = ProgressBar(config)
 
-    custom_ckpt = CustomCheckpointIO()
+    custom_ckpt = "Precision"
     trainer = pl.Trainer(
         num_nodes=config.get("num_nodes", 1),
         devices=torch.cuda.device_count(),
-        strategy="ddp",
+        #strategy="ddp",
         accelerator="gpu",
-        plugins=custom_ckpt,
+        #plugins=custom_ckpt,
         max_epochs=config.max_epochs,
         max_steps=config.max_steps,
         val_check_interval=config.val_check_interval,
         check_val_every_n_epoch=config.check_val_every_n_epoch,
         gradient_clip_val=config.gradient_clip_val,
-        precision=16,
+        precision="16-mixed",
         num_sanity_val_steps=0,
         logger=logger,
         callbacks=[lr_callback, checkpoint_callback, bar],
